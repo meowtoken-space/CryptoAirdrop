@@ -1,0 +1,6 @@
+2025/07/16-21:31:42.526 5840 Creating DB /home/ubuntu/.browser_data_dir/Default/IndexedDB/https_magiceden.us_0.indexeddb.leveldb since it was missing.
+2025/07/16-21:31:42.527 5840 Reusing MANIFEST /home/ubuntu/.browser_data_dir/Default/IndexedDB/https_magiceden.us_0.indexeddb.leveldb/MANIFEST-000001
+2025/07/16-21:32:25.979 5841 Level-0 table #5: started
+2025/07/16-21:32:25.980 5841 Level-0 table #5: 1132 bytes OK
+2025/07/16-21:32:25.980 5841 Delete type=0 #3
+2025/07/16-21:32:25.980 5841 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

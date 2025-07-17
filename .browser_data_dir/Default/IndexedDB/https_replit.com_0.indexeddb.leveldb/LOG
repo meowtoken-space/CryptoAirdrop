@@ -1,0 +1,13 @@
+2025/07/17-17:03:25.705 5840 Reusing MANIFEST /home/ubuntu/.browser_data_dir/Default/IndexedDB/https_replit.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/07/17-17:03:25.705 5840 Recovering log #93
+2025/07/17-17:03:25.812 5840 Reusing old log /home/ubuntu/.browser_data_dir/Default/IndexedDB/https_replit.com_0.indexeddb.leveldb/000093.log 
+2025/07/17-17:03:26.310 5842 Level-0 table #99: started
+2025/07/17-17:03:26.310 5842 Level-0 table #99: 6544 bytes OK
+2025/07/17-17:03:26.311 5842 Delete type=0 #93
+2025/07/17-17:03:26.311 5840 Manual compaction at level-0 from '\x00\x1c\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1d\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/07/17-17:04:04.891 5841 Compacting 1@1 + 1@2 files
+2025/07/17-17:04:04.893 5841 Generated table #100@1: 44 keys, 3804 bytes
+2025/07/17-17:04:04.893 5841 Compacted 1@1 + 1@2 files => 3804 bytes
+2025/07/17-17:04:04.893 5841 compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/07/17-17:04:04.894 5841 Delete type=2 #99
+2025/07/17-17:04:04.894 5841 Delete type=2 #96

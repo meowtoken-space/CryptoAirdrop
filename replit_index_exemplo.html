@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐱 Meow Token - Projeto Completo no Replit</title>
+    
+    <!-- Meta tags para SEO -->
+    <meta name="description" content="Meow Token - Sistema de pontos gamificado com jogos e ranking global">
+    <meta name="keywords" content="meow token, crypto, solana, games, pontos, ranking">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐱</text></svg>">
+    
+    <!-- Estilos do projeto principal -->
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Variáveis CSS do projeto */
+        :root {
+            --primary-color: #9a45fc;
+            --secondary-color: #2ad6d0;
+            --accent-color: #ffe118;
+            --background-color: #0b0019;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --gradient-primary: linear-gradient(135deg, #9a45fc, #7c3aed);
+            --gradient-secondary: linear-gradient(135deg, #2ad6d0, #0891b2);
+            --gradient-accent: linear-gradient(135deg, #ffe118, #eab308);
+            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Estilos base */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: var(--gradient-primary);
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: var(--shadow-card);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .wallet-section {
+            margin-top: 20px;
+        }
+
+        .connect-wallet-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .connect-wallet-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .connect-wallet-btn.connected {
+            background: var(--gradient-accent);
+            color: var(--background-color);
+            border-color: var(--accent-color);
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Grid de seções */
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-card);
+            border-color: var(--primary-color);
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Seção de jogos */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+            box-shadow: 0 6px 20px rgba(255, 225, 24, 0.2);
+        }
+
+        .game-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .game-card p {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .game-btn {
+            background: var(--gradient-accent);
+            color: var(--background-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .game-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 225, 24, 0.4);
+        }
+
+        .game-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Seção social */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .social-btn {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+        }
+
+        .social-btn.twitter {
+            background: linear-gradient(135deg, #1da1f2, #0d8bd9);
+        }
+
+        .social-btn.telegram {
+            background: linear-gradient(135deg, #0088cc, #006699);
+        }
+
+        .social-btn.discord {
+            background: linear-gradient(135deg, #7289da, #5b6eae);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Status indicators */
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-indicator.connected {
+            background: #22c55e;
+            box-shadow: 0 0 10px #22c55e;
+        }
+
+        .status-indicator.disconnected {
+            background: #ef4444;
+            box-shadow: 0 0 10px #ef4444;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .sections-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .social-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+        }
+
+        /* Animações */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .section:nth-child(2) { animation-delay: 0.1s; }
+        .section:nth-child(3) { animation-delay: 0.2s; }
+        .section:nth-child(4) { animation-delay: 0.3s; }
+
+        /* Loading state */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid var(--primary-color);
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    
+    <!-- Estilos do sistema de pontos -->
+    <link rel="stylesheet" href="points-system/css/meow-points.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1>🐱 Meow Token</h1>
+            <p>Sistema de Pontos Gamificado - Acumule pontos, suba no ranking e prepare-se para o TGE!</p>
+            
+            <div class="wallet-section">
+                <button id="connect-wallet-btn" class="connect-wallet-btn" onclick="connectWallet()">
+                    🔗 Conectar Carteira Solana
+                </button>
+                <div id="wallet-status" style="margin-top: 10px; font-size: 0.9rem;">
+                    <span class="status-indicator disconnected"></span>
+                    <span>Carteira não conectada</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Container principal -->
+    <div class="container">
+        <!-- Grid de seções -->
+        <div class="sections-grid">
+            <!-- Seção de pontos do usuário -->
+            <section class="section">
+                <h2>💰 Seus Pontos</h2>
+                <div id="user-points-display">
+                    <!-- O sistema de pontos irá preencher este container -->
+                </div>
+            </section>
+
+            <!-- Seção de ranking -->
+            <section class="section">
+                <h2>🏆 Ranking Global</h2>
+                <div id="ranking-display">
+                    <!-- O sistema de pontos irá preencher este container -->
+                </div>
+            </section>
+
+            <!-- Seção de conquistas -->
+            <section class="section">
+                <h2>🏅 Conquistas</h2>
+                <div id="achievements-display">
+                    <!-- O sistema de pontos irá preencher este container -->
+                </div>
+            </section>
+
+            <!-- Seção de estatísticas -->
+            <section class="section">
+                <h2>📊 Estatísticas</h2>
+                <div id="game-stats-display">
+                    <!-- O sistema de pontos irá preencher este container -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Seção de jogos -->
+        <section class="section">
+            <h2>🎮 Jogos Disponíveis</h2>
+            <div class="games-grid">
+                <div class="game-card" onclick="playMeowClicker()">
+                    <h3>🖱️ Meow Clicker</h3>
+                    <p>Clique para ganhar pontos! Cada clique vale pontos baseados na sua energia.</p>
+                    <button class="game-btn">Jogar Agora</button>
+                </div>
+
+                <div class="game-card" onclick="playCryptoQuiz()">
+                    <h3>🧠 Crypto Quiz</h3>
+                    <p>Teste seus conhecimentos sobre criptomoedas e blockchain!</p>
+                    <button class="game-btn">Iniciar Quiz</button>
+                </div>
+
+                <div class="game-card" onclick="playLuckySpin()">
+                    <h3>🎰 Lucky Spin</h3>
+                    <p>Gire a roleta da sorte! Cooldown de 1 hora entre spins.</p>
+                    <button class="game-btn" id="spin-btn">Girar Roleta</button>
+                </div>
+
+                <div class="game-card" onclick="playTreasureHunt()">
+                    <h3>🗺️ Treasure Hunt</h3>
+                    <p>Encontre tesouros escondidos em mapas de diferentes tamanhos!</p>
+                    <button class="game-btn">Caçar Tesouros</button>
+                </div>
+
+                <div class="game-card" onclick="playBattleArena()">
+                    <h3>⚔️ Battle Arena</h3>
+                    <p>Lute contra inimigos e ganhe pontos por vitórias e combos!</p>
+                    <button class="game-btn">Entrar na Arena</button>
+                </div>
+
+                <div class="game-card" onclick="claimDailyReward()">
+                    <h3>🎁 Recompensa Diária</h3>
+                    <p>Colete sua recompensa diária e mantenha seu streak!</p>
+                    <button class="game-btn">Coletar Recompensa</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de atividades sociais -->
+        <section class="section">
+            <h2>🌟 Atividades Sociais</h2>
+            <p style="margin-bottom: 20px; color: var(--text-secondary);">
+                Complete atividades nas redes sociais para ganhar pontos extras!
+            </p>
+            <div class="social-grid">
+                <button class="social-btn twitter" onclick="rewardTwitter()">
+                    🐦 Twitter (+50)
+                </button>
+                <button class="social-btn telegram" onclick="rewardTelegram()">
+                    📱 Telegram (+40)
+                </button>
+                <button class="social-btn discord" onclick="rewardDiscord()">
+                    💬 Discord (+35)
+                </button>
+            </div>
+        </section>
+
+        <!-- Seção de limites diários -->
+        <section class="section">
+            <h2>⏰ Limites Diários</h2>
+            <div id="daily-limits-display">
+                <!-- O sistema de pontos irá preencher este container -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>🐱 Meow Token - Sistema de Pontos Gamificado</p>
+        <p>Desenvolvido com ❤️ para a comunidade crypto</p>
+        <p>
+            <a href="points-system/admin/dashboard.html" target="_blank">⚙️ Dashboard Admin</a> |
+            <a href="#" onclick="showSystemInfo()">ℹ️ Info do Sistema</a> |
+            <a href="#" onclick="resetSystem()">🔄 Reset (Dev)</a>
+        </p>
+    </footer>
+
+    <!-- Scripts do sistema de pontos (ORDEM IMPORTANTE!) -->
+    <script src="points-system/js/pointsSystem.js"></script>
+    <script src="points-system/js/gameIntegration.js"></script>
+    <script src="points-system/js/ui-components.js"></script>
+
+    <!-- Script principal do projeto -->
+    <script>
+        // Variáveis globais
+        let isWalletConnected = false;
+        let currentWalletAddress = null;
+
+        // Função para conectar carteira Solana
+        async function connectWallet() {
+            try {
+                // Verificar se Phantom está instalado
+                if (!window.solana || !window.solana.isPhantom) {
+                    alert('Por favor, instale a carteira Phantom!\n\nVisite: https://phantom.app/');
+                    window.open('https://phantom.app/', '_blank');
+                    return;
+                }
+
+                // Mostrar loading
+                const connectBtn = document.getElementById('connect-wallet-btn');
+                connectBtn.textContent = '🔄 Conectando...';
+                connectBtn.disabled = true;
+
+                // Conectar carteira
+                const response = await window.solana.connect();
+                const walletAddress = response.publicKey.toString();
+                
+                // Conectar ao sistema de pontos
+                if (window.meowPoints) {
+                    window.meowPoints.connectWallet(walletAddress);
+                    
+                    // Atualizar estado
+                    isWalletConnected = true;
+                    currentWalletAddress = walletAddress;
+                    
+                    // Atualizar interface
+                    updateWalletDisplay(walletAddress);
+                    
+                    // Mostrar notificação de sucesso
+                    if (window.meowUI) {
+                        window.meowUI.showNotification(
+                            `🎉 Carteira conectada! Bem-vindo ao Meow Token!`, 
+                            'success'
+                        );
+                    }
+                    
+                    console.log('✅ Carteira conectada:', walletAddress);
+                } else {
+                    throw new Error('Sistema de pontos não carregado');
+                }
+                
+            } catch (error) {
+                console.error('❌ Erro ao conectar carteira:', error);
+                
+                // Restaurar botão
+                const connectBtn = document.getElementById('connect-wallet-btn');
+                connectBtn.textContent = '🔗 Conectar Carteira Solana';
+                connectBtn.disabled = false;
+                
+                // Mostrar erro
+                if (window.meowUI) {
+                    window.meowUI.showNotification(
+                        '❌ Erro ao conectar carteira. Tente novamente.',
+                        'error'
+                    );
+                } else {
+                    alert('Erro ao conectar carteira. Tente novamente.');
+                }
+            }
+        }
+
+        // Função para atualizar display da carteira
+        function updateWalletDisplay(walletAddress) {
+            const connectBtn = document.getElementById('connect-wallet-btn');
+            const walletStatus = document.getElementById('wallet-status');
+            
+            if (connectBtn) {
+                connectBtn.textContent = `🔗 ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`;
+                connectBtn.classList.add('connected');
+                connectBtn.disabled = false;
+            }
+            
+            if (walletStatus) {
+                walletStatus.innerHTML = `
+                    <span class="status-indicator connected"></span>
+                    <span>Conectado: ${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}</span>
+                `;
+            }
+        }
+
+        // Verificar se carteira está conectada
+        function checkWalletConnection() {
+            if (!isWalletConnected) {
+                if (window.meowUI) {
+                    window.meowUI.showNotification(
+                        '⚠️ Conecte sua carteira primeiro!',
+                        'warning'
+                    );
+                } else {
+                    alert('⚠️ Conecte sua carteira primeiro!');
+                }
+                return false;
+            }
+            return true;
+        }
+
+        // Funções dos jogos
+        function playMeowClicker() {
+            if (!checkWalletConnection()) return;
+            
+            const clicks = Math.floor(Math.random() * 20) + 5; // 5-25 cliques
+            const energy = Math.floor(Math.random() * 50) + 25; // 25-75 energia
+            
+            const result = window.gameIntegration.submitMeowClickerScore(clicks, energy);
+            
+            if (result.success) {
+                showGameResult('Meow Clicker', result.pointsEarned, `${clicks} cliques realizados!`);
+            } else {
+                showGameError('Meow Clicker', result.error);
+            }
+        }
+
+        function playCryptoQuiz() {
+            if (!checkWalletConnection()) return;
+            
+            const totalQuestions = 10;
+            const correctAnswers = Math.floor(Math.random() * 8) + 3; // 3-10 corretas
+            const timeSpent = Math.floor(Math.random() * 180) + 60; // 60-240 segundos
+            
+            const result = window.gameIntegration.submitQuizScore(
+                correctAnswers, 
+                totalQuestions, 
+                timeSpent, 
+                'medium'
+            );
+            
+            if (result.success) {
+                showGameResult(
+                    'Crypto Quiz', 
+                    result.pointsEarned, 
+                    `${correctAnswers}/${totalQuestions} corretas em ${timeSpent}s`
+                );
+            } else {
+                showGameError('Crypto Quiz', result.error);
+            }
+        }
+
+        function playLuckySpin() {
+            if (!checkWalletConnection()) return;
+            
+            const prizes = [25, 50, 75, 100, 150, 200];
+            const prize = prizes[Math.floor(Math.random() * prizes.length)];
+            const spinCost = 50;
+            
+            const result = window.gameIntegration.submitSpinScore(prize, 'normal', spinCost);
+            
+            if (result.success) {
+                showGameResult(
+                    'Lucky Spin', 
+                    result.pointsEarned, 
+                    `Prêmio: ${prize} pontos (custo: ${spinCost})`
+                );
+                
+                // Desabilitar botão por 1 hora (simulado com 30 segundos para demo)
+                const spinBtn = document.getElementById('spin-btn');
+                spinBtn.disabled = true;
+                spinBtn.textContent = 'Cooldown...';
+                
+                setTimeout(() => {
+                    spinBtn.disabled = false;
+                    spinBtn.textContent = 'Girar Roleta';
+                }, 30000); // 30 segundos para demo
+                
+            } else {
+                showGameError('Lucky Spin', result.error);
+            }
+        }
+
+        function playTreasureHunt() {
+            if (!checkWalletConnection()) return;
+            
+            const treasuresFound = Math.floor(Math.random() * 8) + 2; // 2-10 tesouros
+            const mapCompleted = Math.random() > 0.3; // 70% chance de completar
+            const mapSize = ['small', 'medium', 'large'][Math.floor(Math.random() * 3)];
+            const hintsUsed = Math.floor(Math.random() * 3); // 0-2 dicas
+            
+            const result = window.gameIntegration.submitTreasureScore(
+                treasuresFound, 
+                mapCompleted, 
+                mapSize, 
+                hintsUsed
+            );
+            
+            if (result.success) {
+                showGameResult(
+                    'Treasure Hunt', 
+                    result.pointsEarned, 
+                    `${treasuresFound} tesouros encontrados (${mapSize})`
+                );
+            } else {
+                showGameError('Treasure Hunt', result.error);
+            }
+        }
+
+        function playBattleArena() {
+            if (!checkWalletConnection()) return;
+            
+            const won = Math.random() > 0.3; // 70% chance de vitória
+            const enemyLevel = Math.floor(Math.random() * 10) + 1; // 1-10
+            const damageDealt = Math.floor(Math.random() * 800) + 200; // 200-1000
+            const battleDuration = Math.floor(Math.random() * 120) + 30; // 30-150 segundos
+            const comboCount = Math.floor(Math.random() * 8); // 0-7 combos
+            
+            const result = window.gameIntegration.submitBattleScore(
+                won, 
+                enemyLevel, 
+                damageDealt, 
+                battleDuration, 
+                comboCount
+            );
+            
+            if (result.success) {
+                showGameResult(
+                    'Battle Arena', 
+                    result.pointsEarned, 
+                    `${won ? 'Vitória' : 'Derrota'} vs Inimigo Nível ${enemyLevel}`
+                );
+            } else {
+                showGameError('Battle Arena', result.error);
+            }
+        }
+
+        function claimDailyReward() {
+            if (!checkWalletConnection()) return;
+            
+            const result = window.meowPoints.claimDailyReward();
+            
+            if (result.success) {
+                if (window.meowUI) {
+                    window.meowUI.showNotification(
+                        `🎁 Recompensa diária coletada! +${result.reward} pontos (Streak: ${result.streak} dias)`,
+                        'success'
+                    );
+                }
+            } else {
+                if (window.meowUI) {
+                    window.meowUI.showNotification(
+                        `⏰ ${result.error}`,
+                        'warning'
+                    );
+                }
+            }
+        }
+
+        // Atividades sociais
+        function rewardTwitter() {
+            if (!checkWalletConnection()) return;
+            
+            const result = window.gameIntegration.submitSocialReward('twitter', 'follow');
+            
+            if (result.success) {
+                showSocialResult('Twitter', result.pointsEarned);
+            } else {
+                showGameError('Twitter', result.error);
+            }
+        }
+
+        function rewardTelegram() {
+            if (!checkWalletConnection()) return;
+            
+            const result = window.gameIntegration.submitSocialReward('telegram', 'join');
+            
+            if (result.success) {
+                showSocialResult('Telegram', result.pointsEarned);
+            } else {
+                showGameError('Telegram', result.error);
+            }
+        }
+
+        function rewardDiscord() {
+            if (!checkWalletConnection()) return;
+            
+            const result = window.gameIntegration.submitSocialReward('discord', 'join');
+            
+            if (result.success) {
+                showSocialResult('Discord', result.pointsEarned);
+            } else {
+                showGameError('Discord', result.error);
+            }
+        }
+
+        // Funções auxiliares
+        function showGameResult(gameName, points, details) {
+            if (window.meowUI) {
+                window.meowUI.showNotification(
+                    `🎮 ${gameName}: +${points} pontos! ${details}`,
+                    'success'
+                );
+            }
+        }
+
+        function showSocialResult(platform, points) {
+            if (window.meowUI) {
+                window.meowUI.showNotification(
+                    `🌟 ${platform}: +${points} pontos por atividade social!`,
+                    'success'
+                );
+            }
+        }
+
+        function showGameError(gameName, error) {
+            if (window.meowUI) {
+                window.meowUI.showNotification(
+                    `❌ ${gameName}: ${error}`,
+                    'error'
+                );
+            }
+        }
+
+        function showSystemInfo() {
+            if (window.meowPoints) {
+                const userData = window.meowPoints.getUserData();
+                const ranking = window.meowPoints.getRanking(5);
+                
+                alert(`📊 Informações do Sistema:
+                
+Usuário: ${userData.walletAddress || 'Não conectado'}
+Total de Pontos: ${userData.totalPoints || 0}
+Nível: ${userData.level || 1}
+Posição no Ranking: ${window.meowPoints.getUserRank() || 'N/A'}
+Total de Usuários: ${ranking.length}
+
+Sistema funcionando corretamente! ✅`);
+            }
+        }
+
+        function resetSystem() {
+            if (confirm('⚠️ Isso apagará todos os dados de demonstração. Continuar?')) {
+                if (window.meowPoints) {
+                    window.meowPoints.clearAllData();
+                }
+                
+                isWalletConnected = false;
+                currentWalletAddress = null;
+                
+                // Resetar interface
+                const connectBtn = document.getElementById('connect-wallet-btn');
+                const walletStatus = document.getElementById('wallet-status');
+                
+                if (connectBtn) {
+                    connectBtn.textContent = '🔗 Conectar Carteira Solana';
+                    connectBtn.classList.remove('connected');
+                    connectBtn.disabled = false;
+                }
+                
+                if (walletStatus) {
+                    walletStatus.innerHTML = `
+                        <span class="status-indicator disconnected"></span>
+                        <span>Carteira não conectada</span>
+                    `;
+                }
+                
+                // Reabilitar botão de spin
+                const spinBtn = document.getElementById('spin-btn');
+                if (spinBtn) {
+                    spinBtn.disabled = false;
+                    spinBtn.textContent = 'Girar Roleta';
+                }
+                
+                if (window.meowUI) {
+                    window.meowUI.showNotification(
+                        '🔄 Sistema resetado! Conecte sua carteira para começar.',
+                        'info'
+                    );
+                }
+            }
+        }
+
+        // Verificar se carteira já está conectada (ao carregar página)
+        window.addEventListener('load', async () => {
+            console.log('🎮 Meow Token carregado!');
+            
+            // Verificar se há dados existentes
+            const existingData = localStorage.getItem('meow_points_data');
+            if (existingData) {
+                try {
+                    const userData = JSON.parse(existingData);
+                    if (userData.walletAddress) {
+                        isWalletConnected = true;
+                        currentWalletAddress = userData.walletAddress;
+                        updateWalletDisplay(userData.walletAddress);
+                    }
+                } catch (error) {
+                    console.log('Erro ao carregar dados existentes:', error);
+                }
+            }
+            
+            // Tentar conexão automática com Phantom
+            if (window.solana && window.solana.isPhantom) {
+                try {
+                    const response = await window.solana.connect({ onlyIfTrusted: true });
+                    if (response.publicKey) {
+                        const walletAddress = response.publicKey.toString();
+                        
+                        // Conectar automaticamente ao sistema de pontos
+                        if (window.meowPoints) {
+                            window.meowPoints.connectWallet(walletAddress);
+                            isWalletConnected = true;
+                            currentWalletAddress = walletAddress;
+                            updateWalletDisplay(walletAddress);
+                        }
+                    }
+                } catch (error) {
+                    // Usuário não autorizou conexão automática
+                    console.log('Conexão automática não autorizada');
+                }
+            }
+        });
+
+        // Debug commands (para desenvolvimento)
+        window.debugMeow = {
+            connectTestWallet: () => {
+                const testWallet = 'HN7cABqLq46Es1jh92dQQisAq662SmxELLLsHHe4YWrH';
+                window.meowPoints.connectWallet(testWallet);
+                isWalletConnected = true;
+                currentWalletAddress = testWallet;
+                updateWalletDisplay(testWallet);
+                console.log('✅ Carteira de teste conectada');
+            },
+            
+            addTestPoints: (points = 100) => {
+                if (window.meowPoints) {
+                    window.meowPoints.addPoints('Debug Test', points);
+                    console.log(`✅ ${points} pontos adicionados`);
+                }
+            },
+            
+            showUserData: () => {
+                if (window.meowPoints) {
+                    console.log('👤 Dados do usuário:', window.meowPoints.getUserData());
+                }
+            },
+            
+            showRanking: () => {
+                if (window.meowPoints) {
+                    console.log('🏆 Ranking:', window.meowPoints.getRanking(10));
+                }
+            }
+        };
+
+        console.log('🔧 Comandos de debug disponíveis:');
+        console.log('  - debugMeow.connectTestWallet() - Conectar carteira de teste');
+        console.log('  - debugMeow.addTestPoints(100) - Adicionar pontos de teste');
+        console.log('  - debugMeow.showUserData() - Mostrar dados do usuário');
+        console.log('  - debugMeow.showRanking() - Mostrar ranking');
+    </script>
+</body>
+</html>
+

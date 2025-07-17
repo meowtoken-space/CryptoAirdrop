@@ -1,0 +1,159 @@
+2025/07/15-17:12:00.313 587d Reusing MANIFEST /home/ubuntu/.browser_data_dir/Default/Local Storage/leveldb/MANIFEST-000001
+2025/07/15-17:12:00.319 587d Recovering log #77
+2025/07/15-17:12:00.319 587d Reusing old log /home/ubuntu/.browser_data_dir/Default/Local Storage/leveldb/000077.log 
+2025/07/15-17:29:22.559 587f Level-0 table #82: started
+2025/07/15-17:29:22.561 587f Level-0 table #82: 23914 bytes OK
+2025/07/15-17:29:22.562 587f Delete type=0 #77
+2025/07/15-17:33:32.003 587f Level-0 table #84: started
+2025/07/15-17:33:32.008 587f Level-0 table #84: 205058 bytes OK
+2025/07/15-17:33:32.009 587f Delete type=0 #81
+2025/07/15-17:40:33.432 587f Level-0 table #86: started
+2025/07/15-17:40:33.469 587f Level-0 table #86: 34271 bytes OK
+2025/07/15-17:40:33.509 587f Delete type=0 #83
+2025/07/15-18:12:20.476 587f Level-0 table #88: started
+2025/07/15-18:12:20.481 587f Level-0 table #88: 241938 bytes OK
+2025/07/15-18:12:20.481 587f Delete type=0 #85
+2025/07/15-18:12:20.482 587f Compacting 4@0 + 1@1 files
+2025/07/15-18:12:20.490 587f Generated table #89@0: 143 keys, 296334 bytes
+2025/07/15-18:12:20.490 587f Compacted 4@0 + 1@1 files => 296334 bytes
+2025/07/15-18:12:20.490 587f compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/15-18:12:20.491 587f Delete type=2 #79
+2025/07/15-18:12:20.491 587f Delete type=2 #82
+2025/07/15-18:12:20.491 587f Delete type=2 #84
+2025/07/15-18:12:20.491 587f Delete type=2 #86
+2025/07/15-18:12:20.491 587f Delete type=2 #88
+2025/07/15-18:13:14.594 587f Level-0 table #91: started
+2025/07/15-18:13:14.595 587f Level-0 table #91: 35314 bytes OK
+2025/07/15-18:13:14.596 587f Delete type=0 #87
+2025/07/15-18:17:45.847 587f Level-0 table #93: started
+2025/07/15-18:17:45.883 587f Level-0 table #93: 19832 bytes OK
+2025/07/15-18:17:45.884 587f Delete type=0 #90
+2025/07/15-18:50:56.340 587f Level-0 table #95: started
+2025/07/15-18:50:56.346 587f Level-0 table #95: 331875 bytes OK
+2025/07/15-18:50:56.347 587f Delete type=0 #92
+2025/07/15-19:09:33.649 587f Level-0 table #97: started
+2025/07/15-19:09:33.651 587f Level-0 table #97: 39874 bytes OK
+2025/07/15-19:09:33.651 587f Delete type=0 #94
+2025/07/15-19:09:33.652 587f Compacting 4@0 + 1@1 files
+2025/07/15-19:09:33.664 587f Generated table #98@0: 151 keys, 384345 bytes
+2025/07/15-19:09:33.664 587f Compacted 4@0 + 1@1 files => 384345 bytes
+2025/07/15-19:09:33.664 587f compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/15-19:09:33.665 587f Delete type=2 #89
+2025/07/15-19:09:33.665 587f Delete type=2 #91
+2025/07/15-19:09:33.665 587f Delete type=2 #93
+2025/07/15-19:09:33.665 587f Delete type=2 #95
+2025/07/15-19:09:33.665 587f Delete type=2 #97
+2025/07/15-19:53:48.582 587d Level-0 table #100: started
+2025/07/15-19:53:48.583 587d Level-0 table #100: 40619 bytes OK
+2025/07/15-19:53:48.584 587d Delete type=0 #96
+2025/07/15-21:23:38.180 587f Level-0 table #102: started
+2025/07/15-21:23:38.182 587f Level-0 table #102: 57679 bytes OK
+2025/07/15-21:23:38.182 587f Delete type=0 #99
+2025/07/15-22:36:56.457 587f Level-0 table #104: started
+2025/07/15-22:36:56.458 587f Level-0 table #104: 51853 bytes OK
+2025/07/15-22:36:56.459 587f Delete type=0 #101
+2025/07/15-23:23:01.481 587f Level-0 table #106: started
+2025/07/15-23:23:01.482 587f Level-0 table #106: 53469 bytes OK
+2025/07/15-23:23:01.483 587f Delete type=0 #103
+2025/07/15-23:23:01.483 587f Compacting 4@0 + 1@1 files
+2025/07/15-23:23:01.492 587f Generated table #107@0: 153 keys, 384410 bytes
+2025/07/15-23:23:01.492 587f Compacted 4@0 + 1@1 files => 384410 bytes
+2025/07/15-23:23:01.492 587f compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/15-23:23:01.493 587f Delete type=2 #98
+2025/07/15-23:23:01.493 587f Delete type=2 #100
+2025/07/15-23:23:01.493 587f Delete type=2 #102
+2025/07/15-23:23:01.493 587f Delete type=2 #104
+2025/07/15-23:23:01.493 587f Delete type=2 #106
+2025/07/16-00:18:37.077 587f Level-0 table #109: started
+2025/07/16-00:18:37.078 587f Level-0 table #109: 51324 bytes OK
+2025/07/16-00:18:37.079 587f Delete type=0 #105
+2025/07/16-00:55:31.303 587f Level-0 table #111: started
+2025/07/16-00:55:31.304 587f Level-0 table #111: 53956 bytes OK
+2025/07/16-00:55:31.305 587f Delete type=0 #108
+2025/07/16-01:20:49.564 587f Level-0 table #113: started
+2025/07/16-01:20:49.566 587f Level-0 table #113: 51322 bytes OK
+2025/07/16-01:20:49.566 587f Delete type=0 #110
+2025/07/16-01:28:12.212 587f Level-0 table #115: started
+2025/07/16-01:28:12.213 587f Level-0 table #115: 31311 bytes OK
+2025/07/16-01:28:12.214 587f Delete type=0 #112
+2025/07/16-01:28:12.214 587f Compacting 4@0 + 1@1 files
+2025/07/16-01:28:12.217 587f Generated table #116@0: 153 keys, 54954 bytes
+2025/07/16-01:28:12.217 587f Compacted 4@0 + 1@1 files => 54954 bytes
+2025/07/16-01:28:12.217 587f compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/16-01:28:12.218 587f Delete type=2 #107
+2025/07/16-01:28:12.218 587f Delete type=2 #109
+2025/07/16-01:28:12.218 587f Delete type=2 #111
+2025/07/16-01:28:12.218 587f Delete type=2 #113
+2025/07/16-01:28:12.218 587f Delete type=2 #115
+2025/07/16-01:41:08.768 587f Level-0 table #118: started
+2025/07/16-01:41:08.781 587f Level-0 table #118: 26050 bytes OK
+2025/07/16-01:41:08.822 587f Delete type=0 #114
+2025/07/16-03:51:13.628 587f Level-0 table #120: started
+2025/07/16-03:51:13.629 587f Level-0 table #120: 19200 bytes OK
+2025/07/16-03:51:13.630 587f Delete type=0 #117
+2025/07/16-05:10:50.664 587f Level-0 table #122: started
+2025/07/16-05:10:50.665 587f Level-0 table #122: 21127 bytes OK
+2025/07/16-05:10:50.666 587f Delete type=0 #119
+2025/07/16-05:29:52.601 587d Level-0 table #124: started
+2025/07/16-05:29:52.603 587d Level-0 table #124: 21335 bytes OK
+2025/07/16-05:29:52.617 587d Delete type=0 #121
+2025/07/16-05:29:52.617 587d Compacting 4@0 + 1@1 files
+2025/07/16-05:29:52.619 587d Generated table #125@0: 209 keys, 61476 bytes
+2025/07/16-05:29:52.619 587d Compacted 4@0 + 1@1 files => 61476 bytes
+2025/07/16-05:29:52.619 587d compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/16-05:29:52.620 587d Delete type=2 #116
+2025/07/16-05:29:52.620 587d Delete type=2 #118
+2025/07/16-05:29:52.620 587d Delete type=2 #120
+2025/07/16-05:29:52.620 587d Delete type=2 #122
+2025/07/16-05:29:52.620 587d Delete type=2 #124
+2025/07/16-20:42:18.589 587f Level-0 table #127: started
+2025/07/16-20:42:18.591 587f Level-0 table #127: 20586 bytes OK
+2025/07/16-20:42:18.592 587f Delete type=0 #123
+2025/07/16-20:42:29.174 587f Level-0 table #129: started
+2025/07/16-20:42:29.175 587f Level-0 table #129: 19686 bytes OK
+2025/07/16-20:42:29.176 587f Delete type=0 #126
+2025/07/16-20:56:36.706 587f Level-0 table #131: started
+2025/07/16-20:56:36.719 587f Level-0 table #131: 561260 bytes OK
+2025/07/16-20:56:36.720 587f Delete type=0 #128
+2025/07/16-21:31:43.213 587f Level-0 table #133: started
+2025/07/16-21:31:43.215 587f Level-0 table #133: 52351 bytes OK
+2025/07/16-21:31:43.216 587f Delete type=0 #130
+2025/07/16-21:31:43.216 587f Compacting 4@0 + 1@1 files
+2025/07/16-21:31:43.227 587f Generated table #134@0: 232 keys, 624541 bytes
+2025/07/16-21:31:43.227 587f Compacted 4@0 + 1@1 files => 624541 bytes
+2025/07/16-21:31:43.228 587f compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/16-21:31:43.229 587f Delete type=2 #125
+2025/07/16-21:31:43.229 587f Delete type=2 #127
+2025/07/16-21:31:43.229 587f Delete type=2 #129
+2025/07/16-21:31:43.229 587f Delete type=2 #131
+2025/07/16-21:31:43.229 587f Delete type=2 #133
+2025/07/16-21:32:36.822 587f Level-0 table #136: started
+2025/07/16-21:32:36.823 587f Level-0 table #136: 49336 bytes OK
+2025/07/16-21:32:36.824 587f Delete type=0 #132
+2025/07/17-01:00:04.023 587f Level-0 table #138: started
+2025/07/17-01:00:04.025 587f Level-0 table #138: 34193 bytes OK
+2025/07/17-01:00:04.114 587f Delete type=0 #135
+2025/07/17-02:09:52.409 587f Level-0 table #140: started
+2025/07/17-02:09:52.410 587f Level-0 table #140: 52193 bytes OK
+2025/07/17-02:09:52.411 587f Delete type=0 #137
+2025/07/17-02:49:22.646 587f Level-0 table #142: started
+2025/07/17-02:49:22.647 587f Level-0 table #142: 58936 bytes OK
+2025/07/17-02:49:22.648 587f Delete type=0 #139
+2025/07/17-02:49:22.649 587f Compacting 4@0 + 1@1 files
+2025/07/17-02:49:22.664 587f Generated table #143@0: 290 keys, 671682 bytes
+2025/07/17-02:49:22.664 587f Compacted 4@0 + 1@1 files => 671682 bytes
+2025/07/17-02:49:22.664 587f compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/17-02:49:22.665 587f Delete type=2 #134
+2025/07/17-02:49:22.665 587f Delete type=2 #136
+2025/07/17-02:49:22.665 587f Delete type=2 #138
+2025/07/17-02:49:22.665 587f Delete type=2 #140
+2025/07/17-02:49:22.665 587f Delete type=2 #142
+2025/07/17-17:03:31.356 587f Level-0 table #145: started
+2025/07/17-17:03:31.358 587f Level-0 table #145: 54943 bytes OK
+2025/07/17-17:03:31.359 587f Delete type=0 #141
+2025/07/17-17:09:50.058 587f Level-0 table #147: started
+2025/07/17-17:09:50.068 587f Level-0 table #147: 578650 bytes OK
+2025/07/17-17:09:50.070 587f Delete type=0 #144
+2025/07/17-17:35:40.166 587f Level-0 table #149: started
+2025/07/17-17:35:40.167 587f Level-0 table #149: 17752 bytes OK
+2025/07/17-17:35:40.168 587f Delete type=0 #146

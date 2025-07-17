@@ -1,0 +1,54 @@
+2025/07/16-01:28:06.493 5840 Reusing MANIFEST /home/ubuntu/.browser_data_dir/Default/IndexedDB/https_replit.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/07/16-01:28:06.493 5840 Recovering log #80
+2025/07/16-01:28:06.493 5840 Reusing old log /home/ubuntu/.browser_data_dir/Default/IndexedDB/https_replit.com_0.indexeddb.leveldb/000080.log 
+2025/07/16-01:28:06.493 5840 Delete type=2 #79
+2025/07/16-01:28:06.756 5840 Level-0 table #85: started
+2025/07/16-01:28:06.756 5840 Level-0 table #85: 934 bytes OK
+2025/07/16-01:28:06.757 5840 Delete type=0 #80
+2025/07/16-01:28:06.757 5840 Manual compaction at level-0 from '\x00\x18\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x19\x00\x00\x00' @ 0 : 0; will stop at '\x00\x18\x00\x00\x05' @ 806 : 1
+2025/07/16-01:28:06.757 5840 Compacting 1@0 + 1@1 files
+2025/07/16-01:28:06.757 5840 Generated table #86@0: 38 keys, 898 bytes
+2025/07/16-01:28:06.757 5840 Compacted 1@0 + 1@1 files => 898 bytes
+2025/07/16-01:28:06.757 5840 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/16-01:28:06.758 5840 Delete type=2 #85
+2025/07/16-01:28:06.758 5840 Manual compaction at level-0 from '\x00\x18\x00\x00\x05' @ 806 : 1 .. '\x00\x19\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/07/16-20:42:13.256 5841 Level-0 table #88: started
+2025/07/16-20:42:13.257 5841 Level-0 table #88: 1426 bytes OK
+2025/07/16-20:42:13.257 5841 Delete type=0 #84
+2025/07/16-20:42:13.258 5841 Delete type=2 #82
+2025/07/16-20:42:13.258 5842 Manual compaction at level-0 from '\x00\x19\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1a\x00\x00\x00' @ 0 : 0; will stop at '\x00\x19\x00\x00\x05' @ 863 : 1
+2025/07/16-20:42:13.258 5842 Compacting 1@0 + 1@1 files
+2025/07/16-20:42:13.258 5842 Generated table #89@0: 56 keys, 1326 bytes
+2025/07/16-20:42:13.258 5842 Compacted 1@0 + 1@1 files => 1326 bytes
+2025/07/16-20:42:13.259 5842 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/16-20:42:13.259 5842 Delete type=2 #88
+2025/07/16-20:42:13.259 5841 Manual compaction at level-0 from '\x00\x19\x00\x00\x05' @ 863 : 1 .. '\x00\x1a\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/07/16-20:42:23.917 5842 Level-0 table #91: started
+2025/07/16-20:42:23.917 5842 Level-0 table #91: 1439 bytes OK
+2025/07/16-20:42:23.918 5842 Delete type=2 #86
+2025/07/16-20:42:23.918 5842 Delete type=0 #87
+2025/07/16-20:42:23.918 5840 Manual compaction at level-0 from '\x00\x1a\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1b\x00\x00\x00' @ 0 : 0; will stop at '\x00\x1a\x00\x00\x05' @ 920 : 1
+2025/07/16-20:42:23.918 5840 Compacting 1@0 + 1@1 files
+2025/07/16-20:42:23.919 5840 Generated table #92@0: 72 keys, 1495 bytes
+2025/07/16-20:42:23.919 5840 Compacted 1@0 + 1@1 files => 1495 bytes
+2025/07/16-20:42:23.919 5840 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/16-20:42:23.919 5840 Delete type=2 #91
+2025/07/16-20:42:23.919 5840 Manual compaction at level-0 from '\x00\x1a\x00\x00\x05' @ 920 : 1 .. '\x00\x1b\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/07/16-20:42:27.314 5842 Level-0 table #94: started
+2025/07/16-20:42:27.315 5842 Level-0 table #94: 6936 bytes OK
+2025/07/16-20:42:27.315 5842 Delete type=2 #89
+2025/07/16-20:42:27.315 5842 Delete type=0 #90
+2025/07/16-20:42:27.315 5840 Manual compaction at level-0 from '\x00\x1b\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x1c\x00\x00\x00' @ 0 : 0; will stop at '\x00\x1b\x00\x00\x05' @ 977 : 1
+2025/07/16-20:42:27.315 5840 Compacting 1@0 + 1@1 files
+2025/07/16-20:42:27.316 5840 Generated table #95@0: 91 keys, 4426 bytes
+2025/07/16-20:42:27.316 5840 Compacted 1@0 + 1@1 files => 4426 bytes
+2025/07/16-20:42:27.316 5840 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/07/16-20:42:27.317 5840 Delete type=2 #94
+2025/07/16-20:42:27.317 5840 Manual compaction at level-0 from '\x00\x1b\x00\x00\x05' @ 977 : 1 .. '\x00\x1c\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/07/16-20:43:06.131 5841 Compacting 1@1 + 1@2 files
+2025/07/16-20:43:06.133 5841 Generated table #96@1: 44 keys, 3811 bytes
+2025/07/16-20:43:06.133 5841 Compacted 1@1 + 1@2 files => 3811 bytes
+2025/07/16-20:43:06.133 5841 compacted to: files[ 0 0 1 0 0 0 0 ]
+2025/07/16-20:43:06.133 5841 Delete type=2 #26
+2025/07/16-20:43:06.133 5841 Delete type=2 #95
+2025/07/16-20:43:06.133 5841 Delete type=2 #92

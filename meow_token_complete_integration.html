@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meow Token - Sistema de Pontos Completo</title>
+    
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Solana Web3.js -->
+    <script src="https://unpkg.com/@solana/web3.js@latest/lib/index.iife.min.js"></script>
+    
+    <!-- Phantom Wallet Adapter -->
+    <script src="https://unpkg.com/@solana/wallet-adapter-phantom@latest/lib/index.iife.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #9a45fc;
+            --secondary: #2ad6d0;
+            --accent: #ffe118;
+            --background: #0b0019;
+            --surface: #1a0b2e;
+            --text: #ffffff;
+            --text-secondary: #b8b8b8;
+            --success: #00ff88;
+            --error: #ff4757;
+            --warning: #ffa502;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background Animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, var(--background), var(--surface));
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.1" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(26, 11, 46, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .wallet-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .wallet-address {
+            font-family: monospace;
+            background: var(--surface);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--primary);
+        }
+
+        /* Stats Dashboard */
+        .stats-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--surface), rgba(154, 69, 252, 0.1));
+            border: 1px solid var(--primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Games Grid */
+        .games-container {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .game-card {
+            background: var(--surface);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(154, 69, 252, 0.3);
+        }
+
+        .game-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .game-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(154, 69, 252, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, var(--surface), var(--background));
+            border: 2px solid var(--secondary);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, var(--success), #00cc6a);
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, var(--warning), #ff7f00);
+        }
+
+        .btn-error {
+            background: linear-gradient(45deg, var(--error), #ff3742);
+        }
+
+        /* Game Interfaces */
+        .game-interface {
+            display: none;
+            background: var(--surface);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .game-interface.active {
+            display: block;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--primary);
+        }
+
+        .close-game {
+            background: var(--error);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Meow Clicker Specific */
+        .clicker-area {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .meow-button {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            font-size: 4rem;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            margin-bottom: 2rem;
+        }
+
+        .meow-button:active {
+            transform: scale(0.95);
+        }
+
+        .energy-bar {
+            width: 100%;
+            height: 20px;
+            background: var(--background);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .energy-fill {
+            height: 100%;
+            background: linear-gradient(45deg, var(--success), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        /* Leaderboard */
+        .leaderboard {
+            background: var(--surface);
+            border: 2px solid var(--secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+
+        .leaderboard-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--accent);
+        }
+
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(154, 69, 252, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .rank {
+            font-weight: bold;
+            color: var(--accent);
+            min-width: 50px;
+        }
+
+        .player-info {
+            flex: 1;
+            margin-left: 1rem;
+        }
+
+        .player-name {
+            font-weight: bold;
+        }
+
+        .player-level {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .points {
+            font-weight: bold;
+            color: var(--success);
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: var(--surface);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-color: var(--success);
+        }
+
+        .notification.error {
+            border-color: var(--error);
+        }
+
+        .notification.warning {
+            border-color: var(--warning);
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: var(--surface);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1000px;
+            display: none;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-tab {
+            padding: 0.5rem 1rem;
+            background: var(--background);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .admin-tab.active {
+            background: var(--primary);
+        }
+
+        .admin-content {
+            display: none;
+        }
+
+        .admin-content.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .stats-dashboard {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .game-card {
+                padding: 1.5rem;
+            }
+
+            .meow-button {
+                width: 150px;
+                height: 150px;
+                font-size: 3rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Achievement Popup */
+        .achievement-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            z-index: 2000;
+            transition: transform 0.3s ease;
+        }
+
+        .achievement-popup.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .achievement-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-description {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1rem;
+        }
+
+        .achievement-reward {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🐱 MEOW TOKEN</div>
+            <div class="wallet-section">
+                <div id="wallet-address" class="wallet-address">Conectar Carteira</div>
+                <button id="connect-wallet" class="btn">Conectar</button>
+                <button id="admin-toggle" class="btn btn-secondary" style="display: none;">Admin</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Dashboard -->
+    <section class="stats-dashboard">
+        <div class="stat-card">
+            <div class="stat-value" id="total-points">0</div>
+            <div class="stat-label">Total de Pontos</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="user-level">1</div>
+            <div class="stat-label">Nível</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="experience-points">0</div>
+            <div class="stat-label">Experiência</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="global-rank">-</div>
+            <div class="stat-label">Ranking Global</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value" id="achievements-count">0</div>
+            <div class="stat-label">Conquistas</div>
+        </div>
+    </section>
+
+    <!-- Games Container -->
+    <section class="games-container">
+        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 2rem; color: var(--accent);">
+            🎮 JOGOS MEOW TOKEN
+        </h2>
+        
+        <div class="games-grid">
+            <!-- Meow Clicker -->
+            <div class="game-card">
+                <div class="game-icon">🐱</div>
+                <h3 class="game-title">Meow Clicker</h3>
+                <p class="game-description">
+                    Clique no gato para ganhar pontos! Sistema de energia e power-ups especiais.
+                </p>
+                <button class="btn" onclick="openGame('meow-clicker')">Jogar Agora</button>
+            </div>
+
+            <!-- Crypto Quiz -->
+            <div class="game-card">
+                <div class="game-icon">🧠</div>
+                <h3 class="game-title">Crypto Quiz</h3>
+                <p class="game-description">
+                    Teste seus conhecimentos sobre Solana e DeFi. Ganhe pontos por respostas corretas!
+                </p>
+                <button class="btn" onclick="openGame('crypto-quiz')">Jogar Agora</button>
+            </div>
+
+            <!-- Lucky Spin -->
+            <div class="game-card">
+                <div class="game-icon">🎰</div>
+                <h3 class="game-title">Lucky Spin</h3>
+                <p class="game-description">
+                    Gire a roleta da sorte e ganhe recompensas incríveis! Jackpots épicos te esperam.
+                </p>
+                <button class="btn" onclick="openGame('lucky-spin')">Jogar Agora</button>
+            </div>
+
+            <!-- Treasure Hunt -->
+            <div class="game-card">
+                <div class="game-icon">🗺️</div>
+                <h3 class="game-title">Treasure Hunt</h3>
+                <p class="game-description">
+                    Explore mapas misteriosos e encontre tesouros escondidos. Aventura e recompensas!
+                </p>
+                <button class="btn" onclick="openGame('treasure-hunt')">Jogar Agora</button>
+            </div>
+
+            <!-- Battle Arena -->
+            <div class="game-card">
+                <div class="game-icon">⚔️</div>
+                <h3 class="game-title">Battle Arena</h3>
+                <p class="game-description">
+                    Lute contra criaturas crypto em batalhas épicas! Estratégia e habilidade.
+                </p>
+                <button class="btn" onclick="openGame('battle-arena')">Jogar Agora</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Game Interfaces -->
+    <!-- Meow Clicker Interface -->
+    <div id="meow-clicker" class="game-interface">
+        <div class="game-header">
+            <h2>🐱 Meow Clicker</h2>
+            <button class="close-game" onclick="closeGame()">&times;</button>
+        </div>
+        <div class="clicker-area">
+            <button id="meow-btn" class="meow-button">🐱</button>
+            <div>
+                <strong>Cliques: <span id="click-count">0</span></strong>
+            </div>
+            <div class="energy-bar">
+                <div id="energy-fill" class="energy-fill" style="width: 100%;"></div>
+            </div>
+            <div id="energy-text">Energia: 100/100</div>
+            <div id="power-ups" style="margin-top: 1rem;"></div>
+        </div>
+    </div>
+
+    <!-- Crypto Quiz Interface -->
+    <div id="crypto-quiz" class="game-interface">
+        <div class="game-header">
+            <h2>🧠 Crypto Quiz</h2>
+            <button class="close-game" onclick="closeGame()">&times;</button>
+        </div>
+        <div id="quiz-content">
+            <button class="btn" onclick="startQuiz()">Iniciar Quiz</button>
+        </div>
+    </div>
+
+    <!-- Lucky Spin Interface -->
+    <div id="lucky-spin" class="game-interface">
+        <div class="game-header">
+            <h2>🎰 Lucky Spin</h2>
+            <button class="close-game" onclick="closeGame()">&times;</button>
+        </div>
+        <div style="text-align: center;">
+            <div id="spin-wheel" style="font-size: 8rem; margin: 2rem 0;">🎰</div>
+            <button id="spin-btn" class="btn" onclick="spinWheel()">Girar Roleta</button>
+            <div id="spin-cooldown" style="margin-top: 1rem;"></div>
+            <div id="spin-history" style="margin-top: 2rem;"></div>
+        </div>
+    </div>
+
+    <!-- Treasure Hunt Interface -->
+    <div id="treasure-hunt" class="game-interface">
+        <div class="game-header">
+            <h2>🗺️ Treasure Hunt</h2>
+            <button class="close-game" onclick="closeGame()">&times;</button>
+        </div>
+        <div style="text-align: center;">
+            <button class="btn" onclick="generateMap()">Gerar Novo Mapa</button>
+            <div id="treasure-map" style="margin: 2rem 0;"></div>
+            <div id="treasure-controls"></div>
+            <div id="treasure-info"></div>
+        </div>
+    </div>
+
+    <!-- Battle Arena Interface -->
+    <div id="battle-arena" class="game-interface">
+        <div class="game-header">
+            <h2>⚔️ Battle Arena</h2>
+            <button class="close-game" onclick="closeGame()">&times;</button>
+        </div>
+        <div style="text-align: center;">
+            <button class="btn" onclick="startBattle()">Iniciar Batalha</button>
+            <div id="battle-content"></div>
+        </div>
+    </div>
+
+    <!-- Leaderboard -->
+    <section class="leaderboard">
+        <h2 class="leaderboard-header">🏆 RANKING GLOBAL</h2>
+        <div id="leaderboard-list">
+            <div class="loading"></div>
+        </div>
+        <button class="btn btn-secondary" onclick="refreshLeaderboard()" style="margin-top: 1rem; width: 100%;">
+            Atualizar Ranking
+        </button>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="admin-panel" class="admin-panel">
+        <h2 style="text-align: center; color: var(--accent); margin-bottom: 2rem;">
+            ⚙️ PAINEL ADMINISTRATIVO
+        </h2>
+        
+        <div class="admin-tabs">
+            <div class="admin-tab active" onclick="switchAdminTab('users')">Usuários</div>
+            <div class="admin-tab" onclick="switchAdminTab('points')">Pontos</div>
+            <div class="admin-tab" onclick="switchAdminTab('achievements')">Conquistas</div>
+            <div class="admin-tab" onclick="switchAdminTab('tge')">TGE</div>
+        </div>
+
+        <div id="admin-users" class="admin-content active">
+            <h3>Gerenciar Usuários</h3>
+            <div id="users-list"></div>
+        </div>
+
+        <div id="admin-points" class="admin-content">
+            <h3>Sistema de Pontos</h3>
+            <div>
+                <label>Adicionar Pontos:</label>
+                <input type="text" id="target-wallet" placeholder="Endereço da carteira">
+                <input type="number" id="points-amount" placeholder="Quantidade de pontos">
+                <button class="btn" onclick="addPointsToUser()">Adicionar</button>
+            </div>
+        </div>
+
+        <div id="admin-achievements" class="admin-content">
+            <h3>Conquistas</h3>
+            <div id="achievements-list"></div>
+        </div>
+
+        <div id="admin-tge" class="admin-content">
+            <h3>TGE Management</h3>
+            <div>
+                <button class="btn btn-warning" onclick="createTGESnapshot()">Criar Snapshot</button>
+                <div id="snapshots-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notification Container -->
+    <div id="notification" class="notification"></div>
+
+    <!-- Achievement Popup -->
+    <div id="achievement-popup" class="achievement-popup">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-title"></div>
+        <div class="achievement-description"></div>
+        <div class="achievement-reward"></div>
+        <button class="btn" onclick="closeAchievement()">Fechar</button>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+        // Import do sistema de pontos
+        import { meowPoints, initializePoints, addGamePoints, getUserStats, getLeaderboard } from './supabase_client_config.js';
+        import { gameManager, MeowClickerGame, CryptoQuizGame, LuckySpinGame, TreasureHuntGame, BattleArenaGame } from './games_integration_complete.js';
+
+        // Variáveis globais
+        let currentWallet = null;
+        let isAdmin = false;
+        let currentGame = null;
+        let gameInstances = {};
+
+        // Inicialização
+        window.addEventListener('DOMContentLoaded', async () => {
+            console.log('🚀 Iniciando Meow Token System...');
+            
+            // Verificar se já tem carteira conectada
+            const savedWallet = localStorage.getItem('meow_wallet');
+            if (savedWallet) {
+                await connectWallet(savedWallet);
+            }
+
+            // Carregar leaderboard inicial
+            await refreshLeaderboard();
+            
+            // Configurar eventos
+            setupEventListeners();
+            
+            console.log('✅ Sistema inicializado com sucesso!');
+        });
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            document.getElementById('connect-wallet').addEventListener('click', handleWalletConnection);
+            document.getElementById('admin-toggle').addEventListener('click', toggleAdminPanel);
+            
+            // Meow Clicker
+            document.getElementById('meow-btn').addEventListener('click', handleMeowClick);
+        }
+
+        // Conexão com carteira
+        async function handleWalletConnection() {
+            try {
+                if (window.solana && window.solana.isPhantom) {
+                    const response = await window.solana.connect();
+                    const walletAddress = response.publicKey.toString();
+                    await connectWallet(walletAddress);
+                } else {
+                    showNotification('Phantom Wallet não encontrada!', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao conectar carteira:', error);
+                showNotification('Erro ao conectar carteira', 'error');
+            }
+        }
+
+        // Conectar carteira
+        async function connectWallet(walletAddress) {
+            try {
+                currentWallet = walletAddress;
+                localStorage.setItem('meow_wallet', walletAddress);
+                
+                // Inicializar sistema de pontos
+                const result = await initializePoints(walletAddress);
+                if (!result.success) {
+                    throw new Error(result.error);
+                }
+
+                // Atualizar UI
+                document.getElementById('wallet-address').textContent = 
+                    walletAddress.substring(0, 8) + '...' + walletAddress.substring(-8);
+                document.getElementById('connect-wallet').textContent = 'Conectado';
+                document.getElementById('connect-wallet').disabled = true;
+                
+                // Verificar se é admin
+                checkAdminStatus(walletAddress);
+                
+                // Carregar dados do usuário
+                await loadUserData();
+                
+                showNotification('Carteira conectada com sucesso!', 'success');
+            } catch (error) {
+                console.error('Erro ao conectar:', error);
+                showNotification('Erro ao conectar: ' + error.message, 'error');
+            }
+        }
+
+        // Verificar status de admin
+        function checkAdminStatus(walletAddress) {
+            // Lista de carteiras admin (substitua pelas carteiras reais)
+            const adminWallets = [
+                'SUA_CARTEIRA_ADMIN_AQUI',
+                // Adicione mais carteiras admin conforme necessário
+            ];
+            
+            isAdmin = adminWallets.includes(walletAddress);
+            if (isAdmin) {
+                document.getElementById('admin-toggle').style.display = 'block';
+            }
+        }
+
+        // Carregar dados do usuário
+        async function loadUserData() {
+            try {
+                const result = await getUserStats();
+                if (result.success) {
+                    const data = result.data;
+                    document.getElementById('total-points').textContent = data.total_points.toLocaleString();
+                    document.getElementById('user-level').textContent = data.level_id;
+                    document.getElementById('experience-points').textContent = data.experience_points.toLocaleString();
+                    document.getElementById('achievements-count').textContent = data.achievements_unlocked || 0;
+                }
+
+                // Carregar ranking do usuário
+                const ranking = await getLeaderboard(100);
+                if (ranking.success) {
+                    const userRank = ranking.data.findIndex(user => user.wallet_address === currentWallet) + 1;
+                    document.getElementById('global-rank').textContent = userRank > 0 ? userRank : '-';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuário:', error);
+            }
+        }
+
+        // Abrir jogo
+        window.openGame = async function(gameType) {
+            if (!currentWallet) {
+                showNotification('Conecte sua carteira primeiro!', 'warning');
+                return;
+            }
+
+            try {
+                // Fechar jogo atual se houver
+                if (currentGame) {
+                    closeGame();
+                }
+
+                // Ativar novo jogo
+                currentGame = gameType;
+                document.getElementById(gameType).classList.add('active');
+                
+                // Inicializar instância do jogo se necessário
+                if (!gameInstances[gameType]) {
+                    switch (gameType) {
+                        case 'meow-clicker':
+                            gameInstances[gameType] = new MeowClickerGame();
+                            break;
+                        case 'crypto-quiz':
+                            gameInstances[gameType] = new CryptoQuizGame();
+                            break;
+                        case 'lucky-spin':
+                            gameInstances[gameType] = new LuckySpinGame();
+                            break;
+                        case 'treasure-hunt':
+                            gameInstances[gameType] = new TreasureHuntGame();
+                            break;
+                        case 'battle-arena':
+                            gameInstances[gameType] = new BattleArenaGame();
+                            break;
+                    }
+                }
+
+                // Inicializar jogo
+                await gameInstances[gameType].initialize();
+                
+                // Scroll para o jogo
+                document.getElementById(gameType).scrollIntoView({ behavior: 'smooth' });
+                
+            } catch (error) {
+                console.error('Erro ao abrir jogo:', error);
+                showNotification('Erro ao abrir jogo: ' + error.message, 'error');
+            }
+        };
+
+        // Fechar jogo
+        window.closeGame = function() {
+            if (currentGame) {
+                document.getElementById(currentGame).classList.remove('active');
+                
+                // Finalizar sessão do jogo
+                if (gameInstances[currentGame]) {
+                    gameInstances[currentGame].finishSession();
+                }
+                
+                currentGame = null;
+                
+                // Atualizar dados do usuário
+                loadUserData();
+            }
+        };
+
+        // Meow Clicker - Handle Click
+        async function handleMeowClick() {
+            if (!gameInstances['meow-clicker']) return;
+
+            try {
+                const result = await gameInstances['meow-clicker'].processClick();
+                if (result.success) {
+                    // Atualizar UI
+                    document.getElementById('click-count').textContent = gameInstances['meow-clicker'].clickCount;
+                    
+                    // Atualizar barra de energia
+                    const energyPercent = (gameInstances['meow-clicker'].energy / gameInstances['meow-clicker'].maxEnergy) * 100;
+                    document.getElementById('energy-fill').style.width = energyPercent + '%';
+                    document.getElementById('energy-text').textContent = 
+                        `Energia: ${gameInstances['meow-clicker'].energy}/${gameInstances['meow-clicker'].maxEnergy}`;
+                    
+                    // Mostrar pontos ganhos
+                    showPointsAnimation(result.points_added);
+                } else {
+                    showNotification(result.error, 'warning');
+                }
+            } catch (error) {
+                console.error('Erro no clique:', error);
+                showNotification('Erro no clique: ' + error.message, 'error');
+            }
+        }
+
+        // Atualizar leaderboard
+        window.refreshLeaderboard = async function() {
+            try {
+                const result = await getLeaderboard(10);
+                if (result.success) {
+                    const leaderboardList = document.getElementById('leaderboard-list');
+                    leaderboardList.innerHTML = '';
+
+                    result.data.forEach((user, index) => {
+                        const item = document.createElement('div');
+                        item.className = 'leaderboard-item';
+                        item.innerHTML = `
+                            <div class="rank">#${index + 1}</div>
+                            <div class="player-info">
+                                <div class="player-name">${user.username || user.wallet_address.substring(0, 8) + '...'}</div>
+                                <div class="player-level">Nível ${user.level_id} - ${user.level_name}</div>
+                            </div>
+                            <div class="points">${user.total_points.toLocaleString()} pts</div>
+                        `;
+                        leaderboardList.appendChild(item);
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao carregar leaderboard:', error);
+                document.getElementById('leaderboard-list').innerHTML = 
+                    '<div style="text-align: center; color: var(--error);">Erro ao carregar ranking</div>';
+            }
+        };
+
+        // Toggle Admin Panel
+        window.toggleAdminPanel = function() {
+            const panel = document.getElementById('admin-panel');
+            panel.classList.toggle('active');
+        };
+
+        // Switch Admin Tab
+        window.switchAdminTab = function(tab) {
+            // Remover active de todas as tabs
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('active'));
+            
+            // Ativar tab selecionada
+            event.target.classList.add('active');
+            document.getElementById('admin-' + tab).classList.add('active');
+        };
+
+        // Mostrar notificação
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Mostrar animação de pontos
+        function showPointsAnimation(points) {
+            const animation = document.createElement('div');
+            animation.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 2rem;
+                font-weight: bold;
+                color: var(--accent);
+                z-index: 1000;
+                pointer-events: none;
+                animation: pointsFloat 2s ease-out forwards;
+            `;
+            animation.textContent = `+${points} pontos!`;
+            
+            // Adicionar keyframes se não existir
+            if (!document.getElementById('points-animation-style')) {
+                const style = document.createElement('style');
+                style.id = 'points-animation-style';
+                style.textContent = `
+                    @keyframes pointsFloat {
+                        0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                        100% { opacity: 0; transform: translate(-50%, -150%) scale(1.5); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            document.body.appendChild(animation);
+            
+            setTimeout(() => {
+                document.body.removeChild(animation);
+            }, 2000);
+        }
+
+        // Mostrar conquista desbloqueada
+        window.showAchievementNotification = function(achievement) {
+            const popup = document.getElementById('achievement-popup');
+            popup.querySelector('.achievement-title').textContent = achievement.name;
+            popup.querySelector('.achievement-description').textContent = achievement.description;
+            popup.querySelector('.achievement-reward').textContent = 
+                `+${achievement.points_reward} pontos, +${achievement.experience_reward} XP`;
+            popup.classList.add('show');
+        };
+
+        // Fechar popup de conquista
+        window.closeAchievement = function() {
+            document.getElementById('achievement-popup').classList.remove('show');
+        };
+
+        // Expor funções globalmente para uso nos jogos
+        window.showPointsNotification = showPointsAnimation;
+        window.showAchievementNotification = showAchievementNotification;
+        
+        // Outras funções dos jogos serão implementadas conforme necessário
+        window.startQuiz = function() {
+            // Implementar início do quiz
+            showNotification('Quiz em desenvolvimento!', 'info');
+        };
+
+        window.spinWheel = function() {
+            // Implementar roleta
+            showNotification('Roleta em desenvolvimento!', 'info');
+        };
+
+        window.generateMap = function() {
+            // Implementar geração de mapa
+            showNotification('Treasure Hunt em desenvolvimento!', 'info');
+        };
+
+        window.startBattle = function() {
+            // Implementar batalha
+            showNotification('Battle Arena em desenvolvimento!', 'info');
+        };
+
+        console.log('🎮 Sistema Meow Token carregado completamente!');
+    </script>
+</body>
+</html>
+
